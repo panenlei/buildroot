@@ -1,0 +1,71 @@
+From 4bd9c8f4931a81860b5a7641e3a81e9eae80ba23 Mon Sep 17 00:00:00 2001
+From: Alexey Brodkin <abrodkin@synopsys.com>
+Date: Fri, 26 Feb 2016 12:00:39 +0300
+Subject: [PATCH] Fix building with uClibc >= 1.0.8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+In uClibc 1.0.8 new syscall "fanotify" was added.
+LTP correctly determines existence of "fanotify.h" and
+attempts to build fanotify04.c with no success because
+of undefined symbols:
+------------------->8-----------------
+fanotify04.c: In function ‘do_open’:
+fanotify04.c:112:49: warning: unused parameter ‘flagstr’
+[-Wunused-parameter]
+ static void do_open(char *file, int flag, char *flagstr)
+                                                 ^
+fanotify04.c: In function ‘open_dir’:
+fanotify04.c:129:16: error: ‘O_DIRECTORY’ undeclared (first use in this
+function)
+  DO_OPEN(file, O_DIRECTORY);
+                ^
+fanotify04.c:120:43: note: in definition of macro ‘DO_OPEN’
+ #define DO_OPEN(file, flag) do_open(file, flag, #flag)
+                                           ^
+fanotify04.c:129:16: note: each undeclared identifier is reported only
+once for each function it appears in
+  DO_OPEN(file, O_DIRECTORY);
+                ^
+fanotify04.c:120:43: note: in definition of macro ‘DO_OPEN’
+ #define DO_OPEN(file, flag) do_open(file, flag, #flag)
+                                           ^
+fanotify04.c: In function ‘verify_event’:
+fanotify04.c:150:35: warning: comparison between signed and unsigned
+integer expressions [-Wsign-compare]
+  } else if ((st.st_mode & S_IFMT) != mask) {
+                                   ^
+<builtin>: recipe for target 'fanotify04' failed
+------------------->8-----------------
+
+That happens because O_DIRECTORY is only defined in "bits/fcntl.h"
+when __USE_GNU is defined (i.e. in glibc).
+
+Note with missing "fanotify" syscall fanotify04.c gets built
+as well but it is really empty having just warning in main()
+about missign syscall.
+
+And indeed real fix shuld be in fanotify04.c with substitution of
+O_DIRECTORY with something that works for uClibc as well.
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ configure.ac | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 7814ed2..1fdc955 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -42,7 +42,6 @@ AC_CHECK_HEADERS([ \
+     linux/netlink.h \
+     sys/epoll.h \
+     sys/inotify.h \
+-    sys/fanotify.h \
+     sys/jfsdmapi.h \
+     sys/prctl.h \
+ ])
+-- 
+2.5.0
+
