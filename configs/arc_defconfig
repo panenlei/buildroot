@@ -9,4 +9,5 @@ BR2_TOOLCHAIN_BUILDROOT_CXX=y
 BR2_PACKAGE_HOST_GDB=y
 # BR2_TARGET_GENERIC_GETTY is not set
 BR2_ROOTFS_OVERLAY="$(TOPDIR)/system/arc-overlay"
+BR2_PACKAGE_BUSYBOX_CONFIG="package/busybox/busybox-arc-fae-training.config"
 BR2_PACKAGE_GDB=y
