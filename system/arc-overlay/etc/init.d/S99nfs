@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "Mounting NFS share to /mnt..."
+mount -t nfs -o nolock,rw 192.168.218.1:/home/akolesov/pub /mnt
+echo "Mounted NFS share"
+
