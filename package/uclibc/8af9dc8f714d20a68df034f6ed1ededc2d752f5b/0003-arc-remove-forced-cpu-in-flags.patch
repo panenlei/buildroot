@@ -1,0 +1,15 @@
+diff --git a/Rules.mak b/Rules.mak
+index a7c7556..a4c0a4f 100644
+--- a/Rules.mak
++++ b/Rules.mak
+@@ -555,10 +555,6 @@ ifeq ($(TARGET_ARCH),c6x)
+ endif
+ 
+ ifeq ($(TARGET_ARCH),arc)
+-	CPU_CFLAGS-y += -mswape
+-	CPU_CFLAGS-$(CONFIG_ARC_CPU_700) += -mA7
+-	CPU_CFLAGS-$(CONFIG_ARC_CPU_HS) += -mcpu=ARCv2HS -mdiv-rem
+-	ASFLAGS-$(CONFIG_ARC_CPU_HS) += -mHS
+ 	CPU_LDFLAGS-y += $(CPU_CFLAGS) -marclinux
+ endif
+ 

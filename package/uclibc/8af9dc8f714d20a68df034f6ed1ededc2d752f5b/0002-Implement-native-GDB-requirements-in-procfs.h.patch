@@ -1,0 +1,44 @@
+From 3356a8de745e7ddc14b09a81ea89d565b4848217 Mon Sep 17 00:00:00 2001
+From: Anton Kolesov <Anton.Kolesov@synopsys.com>
+Date: Wed, 4 Jun 2014 20:57:57 +0400
+Subject: [PATCH 2/2] Implement native GDB requirements in procfs.h
+
+Native GDB requires elf_fpregset_t to be defined, even if floating point
+registers are absent. In this case we use empty structure. Additionally we
+redefined prfpregset_t to use this new type.
+
+And there has been an error: it was defined that user_regs_struct has 20
+registers, while it has 40.
+
+Signed-off-by: Anton Kolesov <Anton.Kolesov@synopsys.com>
+---
+ libc/sysdeps/linux/arc/sys/procfs.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/libc/sysdeps/linux/arc/sys/procfs.h b/libc/sysdeps/linux/arc/sys/procfs.h
+index 44676e1..a9e375b 100755
+--- a/libc/sysdeps/linux/arc/sys/procfs.h
++++ b/libc/sysdeps/linux/arc/sys/procfs.h
+@@ -30,8 +30,9 @@ typedef unsigned long elf_greg_t;
+    user_regs' directly in the typedef, but tradition says that
+    the register set is an array, which does have some peculiar
+    semantics, so leave it that way.  */
+-#define ELF_NGREG 20
++#define ELF_NGREG 40
+ typedef elf_greg_t elf_gregset_t[ELF_NGREG];
++typedef struct { } elf_fpregset_t;
+ 
+ /* Signal info.  */
+ struct elf_siginfo
+@@ -93,7 +94,7 @@ typedef void *psaddr_t;
+ 
+ /* Register sets.  Linux has different names.  */
+ typedef elf_gregset_t prgregset_t;
+-typedef elf_gregset_t prfpregset_t;
++typedef elf_fpregset_t prfpregset_t;
+ 
+ /* We don't have any differences between processes and threads,
+    therefore have only one PID type.  */
+-- 
+1.8.4.1
+

@@ -1,0 +1,27 @@
+From a194946a8d66323c2288f3e8b0adf19272f5d590 Mon Sep 17 00:00:00 2001
+From: Anton Kolesov <Anton.Kolesov@synopsys.com>
+Date: Tue, 27 May 2014 18:52:23 +0400
+Subject: [PATCH 1/2] arc: Disable hardwired abs paths in defconfig
+
+By default
+
+Signed-off-by: Anton Kolesov <Anton.Kolesov@synopsys.com>
+---
+ extra/Configs/defconfigs/arc/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/extra/Configs/defconfigs/arc/defconfig b/extra/Configs/defconfigs/arc/defconfig
+index 2835656..3e50859 100644
+--- a/extra/Configs/defconfigs/arc/defconfig
++++ b/extra/Configs/defconfigs/arc/defconfig
+@@ -22,6 +22,7 @@ UCLIBC_HAS_NFTW=y
+ UCLIBC_HAS_FTW=y
+ RUNTIME_PREFIX="%RUNTIME_PREFIX%"
+ DEVEL_PREFIX="%DEVEL_PREFIX%"
++# HARDWIRED_ABSPATH is not set
+ CROSS_COMPILER_PREFIX="arc-linux-uclibc-"
+ # DOSTRIP is not set
+ SUPPORT_LD_DEBUG=y
+-- 
+1.8.4.1
+
