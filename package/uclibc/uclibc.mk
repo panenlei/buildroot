@@ -57,6 +57,23 @@ UCLIBC_LOCALES = $(foreach locale,$(GENERATE_LOCALE),\
 endif
 
 #
+# ARC definitions
+#
+ifeq ($(UCLIBC_TARGET_ARCH),arc)
+ifeq ($(BR2_arc770d),y)
+define UCLIBC_ARC_CONFIG
+	$(call KCONFIG_DISABLE_OPT,CONFIG_ARC_CPU_HS,$(@D)/.config)
+	$(call KCONFIG_ENABLE_OPT,CONFIG_ARC_CPU_ARC700,$(@D)/.config)
+endef
+else
+define UCLIBC_ARC_CONFIG
+	$(call KCONFIG_ENABLE_OPT,CONFIG_ARC_CPU_HS,$(@D)/.config)
+	$(call KCONFIG_DISABLE_OPT,CONFIG_ARC_CPU_ARC700,$(@D)/.config)
+endef
+endif
+endif
+
+#
 # ARM definitions
 #
 
@@ -410,6 +427,7 @@ define UCLIBC_KCONFIG_FIXUP_CMDS
 	$(call KCONFIG_SET_OPT,DEVEL_PREFIX,"/usr",$(@D)/.config)
 	$(call KCONFIG_SET_OPT,SHARED_LIB_LOADER_PREFIX,"/lib",$(@D)/.config)
 	$(UCLIBC_MMU_CONFIG)
+	$(UCLIBC_ARC_CONFIG)
 	$(UCLIBC_ARM_ABI_CONFIG)
 	$(UCLIBC_ARM_BX_CONFIG)
 	$(UCLIBC_MIPS_ABI_CONFIG)
