@@ -1,3 +1,19 @@
+# Choise of CPU
+choice
+	prompt "Target CPU"
+	depends on BR2_arc
+	default BR2_arc700
+	help
+	    Specific CPU to use
+
+config BR2_arc700
+	bool "ARC 700"
+
+config BR2_archs
+	bool "ARC HS"
+
+endchoice
+
 # Choise of atomic instructions presence
 config BR2_ARC_ATOMIC_EXT
 	bool "Atomic extension (LLOCK/SCOND instructions)"
@@ -18,4 +34,5 @@ config BR2_ENDIAN
 	default "BIG"	 if BR2_arceb
 
 config BR2_GCC_TARGET_CPU
-	default "arc700"
+	default "arc700" if BR2_arc700
+	default "archs"	 if BR2_archs
