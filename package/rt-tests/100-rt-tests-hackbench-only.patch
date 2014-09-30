@@ -1,0 +1,12 @@
+--- a/Makefile	2014-09-30 12:56:45.560354638 -0700
++++ b/Makefile	2014-09-30 12:57:15.327659705 -0700
+@@ -1,8 +1,6 @@
+ VERSION_STRING = 0.83
+ 
+-sources = cyclictest.c signaltest.c pi_stress.c rt-migrate-test.c	\
+-	  ptsematest.c sigwaittest.c svsematest.c pmqtest.c sendme.c 	\
+-	  pip_stress.c hackbench.c
++sources = hackbench.c
+ 
+ TARGETS = $(sources:.c=)
+ 

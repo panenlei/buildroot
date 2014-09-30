@@ -3,7 +3,6 @@ config BR2_PACKAGE_RT_TESTS
 	# no _tid field in 'struct sigevent'
 	depends on !(BR2_TOOLCHAIN_USES_UCLIBC && (BR2_mips || BR2_mipsel || \
 		BR2_mips64 || BR2_mips64el))
-	depends on BR2_TOOLCHAIN_HAS_THREADS_NPTL
 	help
 	  Set of utilities for testing the real-time behaviour of a
 	  Linux system.
@@ -27,5 +26,3 @@ comment "rt-tests needs an (e)glibc toolchain"
 	depends on BR2_TOOLCHAIN_USES_UCLIBC && (BR2_mips || BR2_mipsel || \
 		BR2_mips64 || BR2_mips64el)
 
-comment "rt-tests needs a toolchain w/ NPTL"
-	depends on !BR2_TOOLCHAIN_HAS_THREADS_NPTL
