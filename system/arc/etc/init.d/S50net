@@ -5,10 +5,15 @@ if dmesg | grep -q "Machine model: snps,nsimosci" ; then
     route add default gw 192.168.218.1 eth0
 fi
 
-# Configure network using DHCP if it's AXS101 or AXS103 board
-if dmesg | grep -q "Machine model: snps,axs10[13]" ; then
-    ifconfig eth0 up
-    # udhcpc may fail to configure an interface and hang
-    # forever. With -b it goes to background in this case.
-    udhcpc -b
+# Configure network using DHCP if it's AXS101 or AXS103 board but
+# don't configure ethernet automatically if the board is simulated
+# in VDK because in Linux tests it's necessary to do it manually using
+# a pre-generated MAC address.
+if ! zcat /proc/config.gz | grep -q 'CONFIG_ARC_BUILTIN_DTB_NAME=".*_vdk"'; then
+    if dmesg | grep -q "Machine model: snps,axs10[13]" ; then
+        ifconfig eth0 up
+        # udhcpc may fail to configure an interface and hang
+        # forever. With -b it goes to background in this case.
+        udhcpc -b
+    fi
 fi
