@@ -6,3 +6,7 @@ sha512  5eb328910033f0918058be2f92caebf1e8dfc6caa3c730d99d621627e53de3c1b43761c2
 
 # Locally calculated (fetched from Github)
 sha512  e57582766e7d510b26bea63606429e6289414c31c60e28fef24d3d82fa20fb5a1f92b3831fde53e4f7c178c9e099609d3292628cf921a99109e297af4e5f83d9 	gdb-arc-2017.09-release-gdb.tar.gz
+# No hash for the ARC & microblaze variants, comes from the github-helper:
+none	xxx	gdb-arc-2015.12-gdb.tar.gz
+none	xxx	gdb-6be65fb56ea6694a9260733a536a023a1e2d4d57.tar.gz
+none	xxx     gdb-arc-snapshot.tar.gz
