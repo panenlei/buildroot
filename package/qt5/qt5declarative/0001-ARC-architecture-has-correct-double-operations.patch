@@ -1,0 +1,29 @@
+From 946cde7e60028b9859db7cd195dc4d18c046cc02 Mon Sep 17 00:00:00 2001
+From: Alexey Brodkin <abrodkin@synopsys.com>
+Date: Thu, 17 Mar 2016 09:56:52 +0300
+Subject: [PATCH] ARC architecture has correct double operations
+
+This patch allows building of QtDeclarative for ARC architecture.
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+
+---
+ src/3rdparty/double-conversion/utils.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/3rdparty/double-conversion/utils.h b/src/3rdparty/double-conversion/utils.h
+index 53eec64..5018514 100644
+--- a/src/3rdparty/double-conversion/utils.h
++++ b/src/3rdparty/double-conversion/utils.h
+@@ -65,7 +65,7 @@
+     defined(__sparc__) || defined(__sparc) || defined(__s390__) || \
+     defined(__SH4__) || defined(__alpha__) || \
+     defined(_MIPS_ARCH_MIPS32R2) || \
+-    defined(__AARCH64EL__)
++    defined(__AARCH64EL__) || defined(__arc__)
+ #define DOUBLE_CONVERSION_CORRECT_DOUBLE_OPERATIONS 1
+ #elif defined(_M_IX86) || defined(__i386__) || defined(__i386)
+ #if defined(_WIN32)
+-- 
+2.5.0
+

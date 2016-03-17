@@ -115,6 +115,15 @@ ifeq ($(BR2_PACKAGE_IMX_GPU_VIV),y)
 QT5BASE_EXTRA_CFLAGS = -DENABLE_MX6_WORKAROUND
 endif
 
+ifeq ($(BR2_arc),y)
+# In case of -Os (which is default in BR) gcc will use millicode implementation
+# from libgcc. That along with performance degradation may lead to issues during
+# linkage stage. In case of QtWebkit exactly that happens - millicode functions
+# get put way too far from caller functions and so linker fails.
+# To solve that problem we explicitly disable millicode call generation for Qt.
+QT5BASE_EXTRA_CFLAGS = -mno-millicode
+endif
+
 ifeq ($(BR2_PACKAGE_QT5BASE_EGLFS),y)
 QT5BASE_CONFIGURE_OPTS += -eglfs
 QT5BASE_DEPENDENCIES   += libegl
