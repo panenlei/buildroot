@@ -1,0 +1,38 @@
+From 76e73fb33b63fd5e3609f10ac67f93930d64b8b6 Mon Sep 17 00:00:00 2001
+From: Alexey Brodkin <abrodkin@synopsys.com>
+Date: Thu, 17 Mar 2016 11:16:15 +0300
+Subject: [PATCH 1/2] Introduce ARC CPU and ask for aligned accesses for it
+
+This patch introduces ARC architecture in Webkit.
+The only reason for that introduction is a requirement to disable
+unaligned accesses.
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ Source/WTF/wtf/Platform.h | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/Source/WTF/wtf/Platform.h b/Source/WTF/wtf/Platform.h
+index 562840c..2508c91 100644
+--- a/Source/WTF/wtf/Platform.h
++++ b/Source/WTF/wtf/Platform.h
+@@ -353,7 +353,15 @@
+ #endif
+ #endif
+ 
+-#if CPU(ARM) || CPU(MIPS) || CPU(SH4) || CPU(SPARC) || CPU(MIPS64)
++/* CPU(ARC) - ARC */
++#if   defined(__arc__)
++#define WTF_CPU_ARC 1
++#if defined(__BIG_ENDIAN__)
++#define WTF_CPU_BIG_ENDIAN 1
++#endif
++#endif
++
++#if CPU(ARM) || CPU(MIPS) || CPU(SH4) || CPU(SPARC) || CPU(MIPS64) || CPU(ARC)
+ #define WTF_CPU_NEEDS_ALIGNED_ACCESS 1
+ #endif
+ 
+-- 
+2.5.0
+
