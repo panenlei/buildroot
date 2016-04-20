@@ -103,8 +103,15 @@ ifeq ($(BR2_xtensa),y)
 TARGET_ABI += -mlongcalls -mauto-litpools
 endif
 
-ifeq ($(BR2_arc)$(BR2_ARC_ATOMIC_EXT),yy)
+# As of today GNU tools for ARC don't have linker relaxation implemented
+# and so we need to make sure full 32-bit offsets are used for calls.
+# Otherwise 25-bit (i.e. covering only =< 32Mb) offsets could be used
+# which will lead to link-time failures when linking huge apps or libraries.
+ifeq ($(BR2_arc),y)
+TARGET_ABI += -mlong-calls
+ifeq ($(BR2_ARC_ATOMIC_EXT),y)
 TARGET_ABI += -matomic
+endif
 endif
 
 STAGING_SUBDIR = usr/$(GNU_TARGET_NAME)/sysroot
