@@ -94,6 +94,7 @@ define GLIBC_CONFIGURE_CMDS
 		--with-pkgversion="Buildroot" \
 		--without-cvs \
 		--disable-profile \
+		--disable-werror \
 		--without-gd \
 		--enable-obsolete-rpc \
 		--enable-kernel=$(call qstrip,$(BR2_TOOLCHAIN_HEADERS_AT_LEAST)) \
