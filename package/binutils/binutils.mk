@@ -6,10 +6,10 @@
 
 # Version is set when using buildroot toolchain.
 # If not, we do like other packages
-BINUTILS_VERSION = $(call qstrip,$(BR2_BINUTILS_VERSION))
 ifeq ($(BINUTILS_VERSION),)
+BINUTILS_VERSION = $(call qstrip,$(BR2_BINUTILS_VERSION))
 ifeq ($(BR2_arc),y)
-BINUTILS_VERSION = arc-2016.09-eng010
+BINUTILS_VERSION = binutils_glibc-dev
 else
 BINUTILS_VERSION = 2.25.1
 endif

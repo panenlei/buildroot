@@ -5,8 +5,15 @@
 ################################################################################
 
 GLIBC_VERSION = $(call qstrip,$(BR2_GLIBC_VERSION_STRING))
+ifeq ($(BR2_arc),y)
+GLIBC_SITE = $(call github,foss-for-synopsys-dwc-arc-processors,glibc,$(GLIBC_VERSION))
+GLIBC_VERSION = vineet-2.23
+GLIBC_SOURCE ?= glibc-$(GLIBC_VERSION).tar.gz
+else
 GLIBC_SITE = $(BR2_GNU_MIRROR)/libc
-GLIBC_SOURCE = glibc-$(GLIBC_VERSION).tar.xz
+endif
+
+GLIBC_SOURCE ?= glibc-$(GLIBC_VERSION).tar.xz
 GLIBC_SRC_SUBDIR = .
 
 GLIBC_LICENSE = GPLv2+ (programs), LGPLv2.1+, BSD-3c, MIT (library)
