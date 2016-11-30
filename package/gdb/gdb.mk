@@ -113,6 +113,7 @@ GDB_CONF_OPTS = \
 	--with-curses \
 	--without-included-gettext \
 	--disable-werror \
+	--disable-build-with-cxx \
 	--enable-static
 
 # When gdb is built as C++ application for ARC it segfaults at runtime
