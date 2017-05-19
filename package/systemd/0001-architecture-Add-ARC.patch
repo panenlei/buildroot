@@ -1,0 +1,145 @@
+From 5634dfbdb7b26ab6eb1f65e5e046163d3d0b46ff Mon Sep 17 00:00:00 2001
+From: Alexey Brodkin <abrodkin@synopsys.com>
+Date: Fri, 19 May 2017 10:13:08 +0200
+Subject: [PATCH] architecture: Add ARC
+
+Add Synopsys DesignWare ARC cores support.
+
+DesignWare ARC Processors are a family of 32-bit CPUs from Synopsys
+used extensively in SoCs of different vendors.
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ man/systemd.unit.xml        |  4 +++-
+ src/basic/architecture.c    |  5 +++++
+ src/basic/architecture.h    | 10 ++++++++++
+ src/basic/missing_syscall.h | 12 ++++++++++++
+ 4 files changed, 30 insertions(+), 1 deletion(-)
+
+diff --git a/man/systemd.unit.xml b/man/systemd.unit.xml
+index a7c37a001893..f3551ce26036 100644
+--- a/man/systemd.unit.xml
++++ b/man/systemd.unit.xml
+@@ -864,7 +864,9 @@
+         <varname>sh64</varname>,
+         <varname>m86k</varname>,
+         <varname>tilegx</varname>,
+-        <varname>cris</varname> to test
++        <varname>cris</varname>,
++        <varname>arc</varname>,
++        <varname>arc-be</varname> to test
+         against a specific architecture. The architecture is
+         determined from the information returned by
+         <citerefentry project='man-pages'><refentrytitle>uname</refentrytitle><manvolnum>2</manvolnum></citerefentry>
+diff --git a/src/basic/architecture.c b/src/basic/architecture.c
+index 5a3dc08a4a7b..2518dd81125d 100644
+--- a/src/basic/architecture.c
++++ b/src/basic/architecture.c
+@@ -132,6 +132,9 @@ int uname_architecture(void) {
+ #  elif __SIZEOF_POINTER__ == 8
+                 { "riscv",      ARCHITECTURE_RISCV64  },
+ #  endif
++#elif defined(__arc__)
++                { "arc",        ARCHITECTURE_ARC      },
++                { "arceb",      ARCHITECTURE_ARC_BE   },
+ #else
+ #error "Please register your architecture here!"
+ #endif
+@@ -185,6 +188,8 @@ static const char *const architecture_table[_ARCHITECTURE_MAX] = {
+         [ARCHITECTURE_NIOS2] = "nios2",
+         [ARCHITECTURE_RISCV32] = "riscv32",
+         [ARCHITECTURE_RISCV64] = "riscv64",
++        [ARCHITECTURE_ARC] = "arc",
++        [ARCHITECTURE_ARC_BE] = "arc-be",
+ };
+ 
+ DEFINE_STRING_TABLE_LOOKUP(architecture, int);
+diff --git a/src/basic/architecture.h b/src/basic/architecture.h
+index db7e03f02a4f..40a2ce6448d5 100644
+--- a/src/basic/architecture.h
++++ b/src/basic/architecture.h
+@@ -60,6 +60,8 @@ enum {
+         ARCHITECTURE_NIOS2,
+         ARCHITECTURE_RISCV32,
+         ARCHITECTURE_RISCV64,
++        ARCHITECTURE_ARC,
++        ARCHITECTURE_ARC_BE,
+         _ARCHITECTURE_MAX,
+         _ARCHITECTURE_INVALID = -1
+ };
+@@ -237,6 +239,14 @@ int uname_architecture(void);
+ #  else
+ #    error "Unrecognized riscv architecture variant"
+ #  endif
++#elif defined(__arc__)
++#  if __BYTE_ORDER == __BIG_ENDIAN
++#    define native_architecture() ARCHITECTURE_ARC_BE
++#    define LIB_ARCH_TUPLE "arceb-linux"
++#  else
++#    define native_architecture() ARCHITECTURE_ARC
++#    define LIB_ARCH_TUPLE "arc-linux"
++#  endif
+ #else
+ #  error "Please register your architecture here!"
+ #endif
+diff --git a/src/basic/missing_syscall.h b/src/basic/missing_syscall.h
+index 9fc415656456..d4096b8cae8e 100644
+--- a/src/basic/missing_syscall.h
++++ b/src/basic/missing_syscall.h
+@@ -52,6 +52,8 @@ static inline int pivot_root(const char *new_root, const char *put_old) {
+ #      endif
+ #    elif defined __i386__
+ #      define __NR_memfd_create 356
++#    elif defined __arc__
++#      define __NR_memfd_create 279
+ #    else
+ #      warning "__NR_memfd_create unknown for your architecture"
+ #    endif
+@@ -97,6 +99,8 @@ static inline int memfd_create(const char *name, unsigned int flags) {
+ #      if _MIPS_SIM == _MIPS_SIM_ABI64
+ #        define __NR_getrandom 5313
+ #      endif
++#    elif defined(__arc__)
++#      define __NR_getrandom 278
+ #    else
+ #      warning "__NR_getrandom unknown for your architecture"
+ #    endif
+@@ -132,6 +136,8 @@ static inline pid_t gettid(void) {
+ #      define __NR_name_to_handle_at 370
+ #    elif defined(__powerpc__)
+ #      define __NR_name_to_handle_at 345
++#    elif defined(__arc__)
++#      define __NR_name_to_handle_at 264
+ #    else
+ #      error "__NR_name_to_handle_at is not defined"
+ #    endif
+@@ -161,6 +167,8 @@ static inline int name_to_handle_at(int fd, const char *name, struct file_handle
+ #      define __NR_setns 308
+ #    elif defined(__i386__)
+ #      define __NR_setns 346
++#    elif defined(__arc__)
++#      define __NR_setns 268
+ #    else
+ #      error "__NR_setns is not defined"
+ #    endif
+@@ -208,6 +216,8 @@ static inline pid_t raw_getpid(void) {
+ #      endif
+ #    elif defined __i386__
+ #      define __NR_renameat2 353
++#    elif defined __arc__
++#      define __NR_renameat2 276
+ #    else
+ #      warning "__NR_renameat2 unknown for your architecture"
+ #    endif
+@@ -283,6 +293,8 @@ static inline key_serial_t request_key(const char *type, const char *description
+ #      define __NR_copy_file_range 285
+ #    elif defined __powerpc__
+ #      define __NR_copy_file_range 379
++#    elif defined __arc__
++#      define __NR_copy_file_range 285
+ #    else
+ #      warning "__NR_copy_file_range not defined for your architecture"
+ #    endif
+-- 
+2.7.4
+
