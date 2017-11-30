@@ -8,6 +8,8 @@ LIBDRM_ARMADA_VERSION = 6b461c
 LIBDRM_ARMADA_SITE = http://git.arm.linux.org.uk/cgit/libdrm-armada.git
 LIBDRM_ARMADA_SITE_METHOD = git
 LIBDRM_ARMADA_DEPENDENCIES = libdrm
+LIBDRM_ARMADA_INSTALL_STAGING = YES
+
 
 # We're patching configure.ac
 LIBDRM_ARMADA_AUTORECONF = YES

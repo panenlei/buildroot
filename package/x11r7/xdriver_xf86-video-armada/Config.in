@@ -1,0 +1,4 @@
+config BR2_PACKAGE_XDRIVER_XF86_VIDEO_ARMADA
+	bool "xf86-video-armada"
+	help
+	  Intel video driver
