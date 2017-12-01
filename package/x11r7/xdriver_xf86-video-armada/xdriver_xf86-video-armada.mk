@@ -9,6 +9,7 @@ XDRIVER_XF86_VIDEO_ARMADA_SITE = http://git.arm.linux.org.uk/cgit/xf86-video-arm
 #XDRIVER_XF86_VIDEO_ARMADA_SITE = $(call git.arm.linux.org.uk,cgit,xf86-video-armada.git,$(XDRIVER_XF86_VIDEO_ARMADA_VERSION))
 XDRIVER_XF86_VIDEO_ARMADA_SITE_METHOD = git
 XDRIVER_XF86_VIDEO_ARMADA_AUTORECONF = YES
+XDRIVER_XF86_VIDEO_ARMADA_DEPENDENCIES = libdrm-armada xserver_xorg-server
 
 #Need etna_viv source files for driver
 define XDRIVER_XF86_VIDEO_ARMADA_ETNASRC
