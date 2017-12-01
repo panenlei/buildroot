@@ -1,0 +1,51 @@
+From 12b4225a7437d6880c38b5deaedfe48611378d68 Mon Sep 17 00:00:00 2001
+From: Alexey Brodkin <abrodkin@synopsys.com>
+Date: Fri, 1 Dec 2017 21:00:33 +0300
+Subject: [PATCH 2/2] xorg-sample.conf: Enable everything
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ conf/xorg-sample.conf | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/conf/xorg-sample.conf b/conf/xorg-sample.conf
+index f21049ceadf4..b6f83469c2e7 100644
+--- a/conf/xorg-sample.conf
++++ b/conf/xorg-sample.conf
+@@ -4,25 +4,25 @@ Section "Device"
+ 	Driver		"armada"
+ 
+ # Support hotplugging displays?
+-#	Option		"Hotplug"	"TRUE"
++	Option		"Hotplug"	"TRUE"
+ 
+ # Support hardware cursor if available?
+-#	Option		"HWCursor"	"TRUE"
++	Option		"HWCursor"	"TRUE"
+ 
+ # Use GPU acceleration?
+-#	Option		"UseGPU"	"TRUE"
++	Option		"UseGPU"	"TRUE"
+ 
+ # Provide Xv interfaces?
+-#	Option		"XvAccel"	"TRUE"
++	Option		"XvAccel"	"TRUE"
+ 
+ # Prefer overlay for Xv (TRUE for armada-drm, FALSE for imx-drm)
+-#	Option		"XvPreferOverlay" "TRUE"
++	Option		"XvPreferOverlay" "TRUE"
+ 
+ # Which accelerator module to load (automatically found if commented out)
+-#	Option		"AccelModule"	"etnadrm_gpu"
+-#	Option		"AccelModule"	"etnaviv_gpu"
++	Option		"AccelModule"	"etnadrm_gpu"
++	Option		"AccelModule"	"etnaviv_gpu"
+ 
+ # Support DRI2 interfaces?
+-#	Option		"DRI"		"TRUE"
++	Option		"DRI"		"TRUE"
+ EndSection
+ 
+-- 
+2.7.5
+

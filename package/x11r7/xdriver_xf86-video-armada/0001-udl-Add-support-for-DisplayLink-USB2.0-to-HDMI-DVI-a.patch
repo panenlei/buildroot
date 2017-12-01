@@ -1,0 +1,53 @@
+From 23bb21ea69e22efb7bd2f70a6e56579b063d400a Mon Sep 17 00:00:00 2001
+From: Alexey Brodkin <abrodkin@synopsys.com>
+Date: Fri, 1 Dec 2017 20:52:50 +0300
+Subject: [PATCH] udl: Add support for DisplayLink USB2.0-to-HDMI/DVI adapters
+
+DisplayLink USB2.0-to-HDMI/DVI external video-cards could be used
+with any USB-enabled board for outputting video.
+
+They are long supported in upstream Linux kernel, just select
+CONFIG_DRM_UDL.
+
+Signed-off-by: Alexey Brodkin <abrodkin@synopsys.com>
+---
+ src/armada_module.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/armada_module.c b/src/armada_module.c
+index 206049c9e013..86c6ebd6a757 100644
+--- a/src/armada_module.c
++++ b/src/armada_module.c
+@@ -26,7 +26,7 @@
+ #define ARMADA_NAME		"armada"
+ #define ARMADA_DRIVER_NAME	"armada"
+ 
+-#define DRM_MODULE_NAMES	"armada-drm", "imx-drm"
++#define DRM_MODULE_NAMES	"armada-drm", "imx-drm", "udl"
+ #define DRM_DEFAULT_BUS_ID	NULL
+ 
+ static const char *drm_module_names[] = { DRM_MODULE_NAMES };
+@@ -43,6 +43,11 @@ static SymTabRec ipu_chipsets[] = {
+ 	{ -1, NULL }
+ };
+ 
++static SymTabRec udl_chipsets[] = {
++	{  0, "UDL" },
++	{ -1, NULL }
++};
++
+ static const OptionInfoRec * const options[] = {
+ 	armada_drm_options,
+ 	common_drm_options,
+@@ -115,6 +120,8 @@ static void armada_identify(int flags)
+ 			  armada_chipsets);
+ 	xf86PrintChipsets(ARMADA_NAME, "Support for Freescale IPU",
+ 			  ipu_chipsets);
++	xf86PrintChipsets(ARMADA_NAME, "Support DisplayLink USB2.0",
++			  udl_chipsets);
+ }
+ 
+ static void armada_init_screen(ScrnInfoPtr pScrn)
+-- 
+2.7.5
+
