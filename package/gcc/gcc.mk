@@ -62,8 +62,7 @@ define HOST_GCC_APPLY_PATCHES
 endef
 
 HOST_GCC_EXCLUDES = \
-	libjava/* libgo/* \
-	gcc/testsuite/* libstdc++-v3/testsuite/*
+	libjava/* libgo/*
 
 define HOST_GCC_FAKE_TESTSUITE
 	mkdir -p $(@D)/libstdc++-v3/testsuite/
