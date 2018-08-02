@@ -1,0 +1,43 @@
+From f4cd6add2dbea40571e4bc236729ce897aa7957c Mon Sep 17 00:00:00 2001
+From: Claudiu Zissulescu <claziss@synopsys.com>
+Date: Tue, 28 Mar 2017 13:09:41 +0200
+Subject: [PATCH] [ARC] Clear the instruction cache using syscalls.
+
+Clear the instruction cache from `beg' to `end'.  This makes an inline
+system call to SYS_cacheflush.
+
+gcc/
+2017-03-28  Claudiu Zissulescu  <claziss@synopsys.com>
+
+	* config/arc/linux.h (CLEAR_INSN_CACHE): Define.
+
+Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+---
+ gcc/config/arc/linux.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/gcc/config/arc/linux.h b/gcc/config/arc/linux.h
+index 0c6dbc74e24d..b39c7862c863 100644
+--- a/gcc/config/arc/linux.h
++++ b/gcc/config/arc/linux.h
+@@ -101,3 +101,17 @@ along with GCC; see the file COPYING3.  If not see
+ /* Build attribute: procedure call standard.  */
+ #undef ATTRIBUTE_PCS
+ #define ATTRIBUTE_PCS 3
++
++/* Clear the instruction cache from `beg' to `end'.  This makes an
++   inline system call to SYS_cacheflush.  */
++#undef CLEAR_INSN_CACHE
++#define CLEAR_INSN_CACHE(beg, end)					\
++{									\
++  register unsigned long _beg __asm ("r0") = (unsigned long) (beg);	\
++  register unsigned long _end __asm ("r1") = (unsigned long) (end);	\
++  register unsigned long _xtr __asm ("r2") = 0;				\
++  register unsigned long _scno __asm ("r8") = 244;			\
++  __asm __volatile ("trap_s 0		; sys_cache_sync"		\
++		    : "=r" (_beg)					\
++		    : "0" (_beg), "r" (_end), "r" (_xtr), "r" (_scno));	\
++}
+-- 
+2.7.4
+
