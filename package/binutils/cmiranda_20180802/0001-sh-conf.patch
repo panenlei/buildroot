@@ -1,4 +1,4 @@
-From b30ec72417164a2e990bc986eb0da05b7ef054fa Mon Sep 17 00:00:00 2001
+From ac36af7d97d7920512068316fac6159aead97a01 Mon Sep 17 00:00:00 2001
 From: Romain Naour <romain.naour@gmail.com>
 Date: Fri, 25 Dec 2015 11:38:13 +0100
 Subject: [PATCH] sh-conf
@@ -18,10 +18,10 @@ Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 2d615a9996..18d74ab96e 100755
+index 462ad053066..27cb5571d0d 100755
 --- a/configure
 +++ b/configure
-@@ -3835,7 +3835,7 @@ case "${target}" in
+@@ -3855,7 +3855,7 @@ case "${target}" in
    nvptx*-*-*)
      noconfigdirs="$noconfigdirs target-libssp target-libstdc++-v3 target-libobjc"
      ;;
@@ -31,10 +31,10 @@ index 2d615a9996..18d74ab96e 100755
        sh*-*-elf)
           ;;
 diff --git a/configure.ac b/configure.ac
-index aae94501e4..b530e54926 100644
+index a638f694134..2fd7bce1576 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1166,7 +1166,7 @@ case "${target}" in
+@@ -1152,7 +1152,7 @@ case "${target}" in
    nvptx*-*-*)
      noconfigdirs="$noconfigdirs target-libssp target-libstdc++-v3 target-libobjc"
      ;;
@@ -44,5 +44,5 @@ index aae94501e4..b530e54926 100644
        sh*-*-elf)
           ;;
 -- 
-2.14.3
+2.14.4
 
