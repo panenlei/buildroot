@@ -1,0 +1,6 @@
+config BR2_PACKAGE_PERL_FONT_TTF
+	bool "perl-font-ttf"
+	help
+	  Font::TTF - Perl module for TrueType Font hacking
+
+	  https://github.com/silnrsi/font-ttf
